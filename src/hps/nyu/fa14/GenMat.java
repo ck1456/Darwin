@@ -1,5 +1,7 @@
 package hps.nyu.fa14;
 
+import hps.nyu.fa14.solve.TrivialGenerator;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,8 +17,8 @@ public class GenMat {
     public static List<Matrix> solveMulti(TableSum tableSum){
         
         // TODO: Implement this better
-        
-        return null;
+        IGenerator g = new TrivialGenerator();
+        return g.generate(tableSum);
     }
     
     /**
@@ -26,8 +28,8 @@ public class GenMat {
     public static List<Matrix> solveMax(TableSum tableSum){
         
         // TODO: Implement this better
-        
-        return null;
+        IGenerator g = new TrivialGenerator();
+        return g.generate(tableSum);
     }
     
     /**

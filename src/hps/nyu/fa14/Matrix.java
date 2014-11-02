@@ -19,37 +19,47 @@ public class Matrix {
         values = new boolean[rows][cols];
     }
 
+    // TODO: Could make this more efficient by
+    // only iterating over the matrix once
     public boolean satisfies(TableSum tableSum) {
 
         if (rows != tableSum.rows || cols != tableSum.cols) {
             throw new IndexOutOfBoundsException("Unexpected matrix size");
         }
 
-        // TODO: Could make this more efficient by
-        // only iterating over the matrix once
-        // Check all row sums
+        // Check all rows
         for (int r = 0; r < rows; r++) {
-            int rSum = 0;
-            for (int i = 0; i < cols; i++) {
-                rSum += (values[r][i] ? 1 : 0);
-            }
-            if (rSum != tableSum.rowSums[r]) {
+            if (rowSum(r) != tableSum.rowSums[r]) {
+                System.out.println(String.format("Row %d not satisfied", r));
                 return false;
             }
         }
 
-        // Check all column sums
+        // Check all columns
         for (int c = 0; c < cols; c++) {
-            int cSum = 0;
-            for (int i = 0; i < rows; i++) {
-                cSum += (values[i][c] ? 1 : 0);
-            }
-            if (cSum != tableSum.colSums[c]) {
+            if (columnSum(c) != tableSum.colSums[c]) {
+                System.out.println(String.format("Column %d not satisfied", c));
                 return false;
             }
         }
 
         return true;
+    }
+
+    public int columnSum(int col) {
+        int sum = 0;
+        for (int i = 0; i < rows; i++) {
+            sum += (values[i][col] ? 1 : 0);
+        }
+        return sum;
+    }
+
+    public int rowSum(int row) {
+        int sum = 0;
+        for (int i = 0; i < cols; i++) {
+            sum += (values[row][i] ? 1 : 0);
+        }
+        return sum;
     }
 
     public void write(OutputStream output) throws IOException {
@@ -62,9 +72,10 @@ public class Matrix {
         }
         bw.newLine();
     }
-    
-    public static void write(OutputStream output, List<Matrix> matrices) throws IOException {
-        for(Matrix m : matrices){
+
+    public static void write(OutputStream output, List<Matrix> matrices)
+            throws IOException {
+        for (Matrix m : matrices) {
             m.write(output);
         }
         output.close(); // TODO: Is this an acceptable convention?

@@ -22,6 +22,9 @@ public class TableSum {
         colSums = new int[cols];
     }
     
+    public Matrix emptyMatrix(){
+        return new Matrix(rows, cols);
+    }
     
     public static TableSum parse(InputStream input) throws IOException {
         
