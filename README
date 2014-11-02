@@ -1,0 +1,23 @@
+Darwin Contingency Matrix Challenge
+Heuristic Problem Solving - Fall 2014
+
+Submitted by:  DataPlayers
+  Chris Keitel (ck1456@nyu.edu)
+  Kumar Prabhu (kumar.prabhu@nyu.edu)
+
+The attached zip file contains all of the source and compiled code to produce solutions
+
+Copy the zip file to an energon machine and unzip:
+> unzip GenMat.zip
+> cd GenMat
+
+The GenMat.jar in this directory is the tool used to generate solutions.
+You can invoke it with three command line arguments <problem_type> <input> <output>:
+> java -jar GenMat.jar A input_darwin.txt output_darwin.txt
+
+If necessary you can rebuild the jar file by using the included ant build script:
+> ant clean
+> ant
+
+Other Helpful Hints:
+
