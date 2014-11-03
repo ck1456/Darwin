@@ -20,24 +20,21 @@ public class TrivialGenerator implements IGenerator {
         // Create a new matrix
         Matrix m = tableSum.emptyMatrix();
 
-        // For each row sum go through and populate the columns starting at the
-        // top
+        // For each row sum go through and populate columns starting at top
         for (int r = 0; r < m.rows; r++) {
             for (int c = 0; c < tableSum.rowSums[r]; c++) {
                 m.values[r][c] = true;
             }
-        }
-        // At this point all of the row sums should be satisfied
-
-        // temp data structure that keeps the position of the last set bit in
-        // the row
+        } // At this point all of the row sums should be satisfied
+        
+        // lastBits keeps the position of the last set bit in each row
         int[] lastBits = new int[m.rows];
         for (int r = 0; r < m.rows; r++) {
             lastBits[r] = tableSum.rowSums[r] - 1;
         }
 
-        // For each column sum, find ones that aren't satisfied and percolate
-        // down the row
+        // For each column sum, find col that isn't satisfied
+        // ==> percolate down the row
         for (int c = 0; c < m.cols; c++) {
             while (m.columnSum(c) > tableSum.colSums[c]) {
                 // find the row with the smallest last bit, and shift that
@@ -56,11 +53,7 @@ public class TrivialGenerator implements IGenerator {
                 // ==> pop this bit to the next open spot in the row
                 m.values[r][c] = false;
                 lastBits[r] = lastBits[r] + 1;
-                if (lastBits[r] == 17) {
-                    System.out.println("why");
-                }
                 m.values[r][lastBits[r]] = true;
-                
             }
         }
         // At this point, all of the column sums should be satisfied, too
