@@ -1,5 +1,6 @@
 package hps.nyu.fa14;
 
+import hps.nyu.fa14.solve.SwapGenerator;
 import hps.nyu.fa14.solve.TrivialGenerator;
 
 import java.io.File;
@@ -16,8 +17,9 @@ public class GenMat {
      */
     public static List<Matrix> solveMulti(TableSum tableSum){
         
-        // TODO: Implement this better
-        IGenerator g = new TrivialGenerator();
+        // Generates 10000 by default, but can set this to more
+        SwapGenerator g = new SwapGenerator();
+        //g.maxToGenerate = 10000;
         return g.generate(tableSum);
     }
     

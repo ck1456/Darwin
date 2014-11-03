@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -23,11 +24,9 @@ public class Matrix {
     // TODO: Could make this more efficient by
     // only iterating over the matrix once
     public boolean satisfies(TableSum tableSum) {
-
         if (rows != tableSum.rows || cols != tableSum.cols) {
             throw new IndexOutOfBoundsException("Unexpected matrix size");
         }
-
         // Check all rows
         for (int r = 0; r < rows; r++) {
             if (rowSum(r) != tableSum.rowSums[r]) {
@@ -35,7 +34,6 @@ public class Matrix {
                 return false;
             }
         }
-
         // Check all columns
         for (int c = 0; c < cols; c++) {
             if (columnSum(c) != tableSum.colSums[c]) {
@@ -43,7 +41,6 @@ public class Matrix {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -57,7 +54,6 @@ public class Matrix {
         }
         return tableSum;
     }
-    
     
     public int columnSum(int col) {
         int sum = 0;
@@ -124,30 +120,30 @@ public class Matrix {
         return hash;
     }
     
-    
-    public void write(OutputStream output) throws IOException {
-        // TODO: Fix so that id doesn't write the very last space
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(output));
+    private void write(BufferedWriter writer) throws IOException {
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
-                bw.write(String.format("%d ", values[r][c] ? 1 : 0));
+                writer.write(String.format("%d ", values[r][c] ? 1 : 0));
             }
         }
-        bw.newLine();
+        writer.newLine();
+    }
+    
+    public void write(OutputStream output) throws IOException {
+        Matrix.write(output, Arrays.asList(this));
     }
 
     public static void write(OutputStream output, List<Matrix> matrices)
             throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(output));
         for (Matrix m : matrices) {
-            m.write(output);
+            m.write(bw);
         }
-        output.close(); // TODO: Is this an acceptable convention?
+        bw.close();
     }
     
     private static final Random RAND = new Random();
-    
     public static Matrix random(int rows, int cols){
-    
         Matrix m = new Matrix(rows, cols);
         for(int r = 0; r < rows; r++){
             for(int c = 0; c < cols; c++){

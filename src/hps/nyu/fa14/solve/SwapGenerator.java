@@ -19,27 +19,40 @@ import java.util.Set;
 public class SwapGenerator implements IGenerator {
 
     // Allows clients to set a useful cutoff for testing
-    public int maxToGenerate = Integer.MAX_VALUE;
-    
+    // Generates 10000 by default for problem A
+    public int maxToGenerate = 10000;
+
     @Override
     public List<Matrix> generate(TableSum tableSum) {
 
         // Keep a set of all of the Matrices
         Set<Matrix> matrices = new HashSet<Matrix>();
-        
+
         // Generate one solution to start
         Matrix m0 = new TrivialGenerator().generate(tableSum).get(0);
         matrices.add(m0);
-        
-        for (SwapPosition swapPos : getSwapPositions(m0)) {
-            Matrix newM = m0.clone();
-            swapPos.swap(newM);
-            matrices.add(newM); // only adds if it is distinct
-            if(matrices.size() >= maxToGenerate){
-                break;
-            }
-        }
 
+        List<Matrix> mQueue = new ArrayList<Matrix>();
+        mQueue.add(m0);
+
+        while (mQueue.size() > 0) {
+            Matrix mCurr = mQueue.remove(0);
+            for (SwapPosition swapPos : getSwapPositions(mCurr)) {
+                Matrix newM = mCurr.clone();
+                swapPos.swap(newM);
+                boolean added = matrices.add(newM); // only adds if it is
+                                                    // distinct
+                if(added){
+                    mQueue.add(newM); // explore this one later
+                }
+
+                if (matrices.size() >= maxToGenerate) {
+                    mQueue.clear();
+                    break;
+                }
+            }
+
+        }
         System.out.println(String.format("Generated %d matrices",
                 matrices.size()));
         return new ArrayList<Matrix>(matrices);
@@ -82,11 +95,11 @@ public class SwapGenerator implements IGenerator {
                     // increment column span
                     spanC++;
                     spanR = 1;
-                    if(baseC + spanC >= m.cols){
+                    if (baseC + spanC >= m.cols) {
                         // increment base column
                         baseC++;
                         spanC = 1;
-                        if(baseC + spanC >= m.cols){
+                        if (baseC + spanC >= m.cols) {
                             // increment base row
                             baseR++;
                             baseC = 0;
@@ -115,7 +128,7 @@ public class SwapGenerator implements IGenerator {
 
                 next = nextPos;
             }
-            //System.out.println("Next set");
+            // System.out.println("Next set");
         }
 
         @Override
