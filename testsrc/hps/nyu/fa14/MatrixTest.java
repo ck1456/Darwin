@@ -74,5 +74,26 @@ public class MatrixTest {
        assertEquals(m1Hash, m2Hash);
     }
 
-
+    @Test
+    public void testCorrelation_3_3(){
+       Matrix m1 = new Matrix(3, 3);
+       m1.values[0][0] = true;
+       m1.values[0][1] = true;
+       m1.values[1][1] = true;
+       m1.values[1][2] = true;
+       m1.values[2][0] = true;
+       int c = m1.correlation();
+       assertEquals(4, c);
+    }
+    
+    @Test
+    public void testCorrelation_2_4(){
+       Matrix m1 = new Matrix(2, 4);
+       m1.values[0][1] = true;
+       m1.values[0][2] = true;
+       m1.values[1][1] = true;
+       m1.values[1][3] = true;
+       int c = m1.correlation();
+       assertEquals(2, c);
+    }
 }

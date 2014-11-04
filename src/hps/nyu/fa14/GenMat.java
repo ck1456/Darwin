@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class GenMat {
@@ -31,7 +32,9 @@ public class GenMat {
         
         // TODO: Implement this better
         IGenerator g = new TrivialGenerator();
-        return g.generate(tableSum);
+        Matrix m = g.generate(tableSum).get(0);
+        System.out.println(String.format("Correlation: %d", m.correlation()));
+        return Arrays.asList(m);
     }
     
     /**

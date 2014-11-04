@@ -70,7 +70,36 @@ public class Matrix {
         }
         return sum;
     }
-    
+
+    public int correlation() {
+        int[][] S = getS();
+        int sum = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < rows; j++) {
+                if (i != j) {
+                    sum += S[i][j] * S[i][j];
+                }
+            }
+        }
+        return sum;
+    }
+
+    private int[][] getS() {
+        int m = rows;
+        int n = cols;
+        int[][] S = new int[m][m];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int k = 0; k < n; k++) {
+                    if (values[i][k] && values[j][k]) {
+                        S[i][j]++;
+                    }
+                }
+            }
+        }
+        return S;
+    }
+
     /**
      * Creates a deep copy of the matrix
      */

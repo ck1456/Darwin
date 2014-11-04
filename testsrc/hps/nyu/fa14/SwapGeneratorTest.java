@@ -6,6 +6,7 @@ import hps.nyu.fa14.solve.SwapGenerator;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SwapGeneratorTest {
@@ -30,6 +31,7 @@ public class SwapGeneratorTest {
         assertEquals(g.maxToGenerate, sol.size());
     }
     
+    @Ignore // This works it just takes a long time
     @Test
     public void testGenerateBySwap_25K() throws Exception {
         TableSum tableSum = TableSum.parseFile("data/input_darwin.txt");
