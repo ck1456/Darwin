@@ -29,8 +29,12 @@ public class MaxCorGenerator implements IGenerator {
         Set<Matrix> matrices = new HashSet<Matrix>();
 
         // Generate one solution to start
+        int maxCorr = 0;
         Matrix m0 = new TrivialGenerator().generate(tableSum).get(0);
         matrices.add(m0);
+        int corr = m0.correlation();
+        maxCorr = corr;
+        Matrix bestCorMatrix = new Matrix(m0.rows,m0.cols);
 
         List<Matrix> mQueue = new ArrayList<Matrix>();
         mQueue.add(m0);
@@ -42,6 +46,11 @@ public class MaxCorGenerator implements IGenerator {
                 swapPos.swap(newM);
                 boolean added = matrices.add(newM); // only adds if it is
                                                     // distinct
+                corr = newM.correlation();
+                if(maxCorr < corr) {
+                  maxCorr = corr;
+                  bestCorMatrix = newM;
+                }
                 if(added){
                     mQueue.add(newM); // explore this one later
                 }
@@ -55,6 +64,7 @@ public class MaxCorGenerator implements IGenerator {
         }
         System.out.println(String.format("Generated %d matrices",
                 matrices.size()));
+        System.out.println("Max corr "+maxCorr);
         return new ArrayList<Matrix>(matrices);
     }
 
