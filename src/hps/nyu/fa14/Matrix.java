@@ -43,6 +43,42 @@ public class Matrix {
         }
         return true;
     }
+    
+    public Matrix transpose() {
+      Matrix m = new Matrix(cols,rows);
+      for(int i=0;i<cols;i++) {
+        for(int j=0;j<rows;j++) {
+          m.values[i][j] = this.values[j][i];
+        }
+      }
+      return m;
+    }
+    
+    public int[][] product(Matrix t) {
+      int [][] prod = new int[rows][rows];
+      for(int i=0;i<this.rows;i++) {
+        for(int j=0;j<t.cols;j++) {
+          for(int k=0;k<this.cols;k++) {
+            prod[i][k] += (this.values[i][k] & t.values[k][j] ? 1 : 0);
+          }
+        }
+      }
+      return prod;
+    }
+    
+    public int correlation() {
+      int corr = 0;
+      Matrix t = this.transpose();
+      int [][] S = this.product(t);
+      for(int i=0;i<this.rows;i++) {
+        for(int j=0;j<this.rows;j++) {
+          if(i != j) {
+            corr += S[i][j];
+          }
+        }
+      }
+      return corr;
+    }
 
     public TableSum getTableSum(){
         TableSum tableSum = new TableSum(rows, cols);
