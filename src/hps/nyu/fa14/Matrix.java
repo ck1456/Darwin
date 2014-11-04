@@ -59,7 +59,7 @@ public class Matrix {
       for(int i=0;i<this.rows;i++) {
         for(int j=0;j<t.cols;j++) {
           for(int k=0;k<this.cols;k++) {
-            prod[i][k] += (this.values[i][k] & t.values[k][j] ? 1 : 0);
+            prod[i][j] += ((this.values[i][k] & t.values[k][j]) ? 1 : 0);
           }
         }
       }
