@@ -39,19 +39,19 @@ public class MaxGenerator extends AbstractGenerator {
     private Matrix bestMatrix = null;
     
     // Optimize a Matrix by searching swaps and taking them if they improve correlation
-    @SuppressWarnings("unused")
-    private static Matrix localSearch(Matrix m){
+    public static Matrix localSearch(Matrix m){
         Matrix best = m;
         int bestCorrelation = m.correlation();
                 
         boolean improve = true;
         while(improve){
             improve = false;
-            for(SwapPosition swapPos : SwapGenerator.getSwapPositions(m)){
-                Matrix newM = m.clone();
+            for(SwapPosition swapPos : SwapGenerator.getSwapPositions(best)){
+                Matrix newM = best.clone();
                 swapPos.swap(newM);
-                int corr = m.correlation();
+                int corr = newM.correlation();
                 if(corr > bestCorrelation){
+                    System.out.println("Local Search improvement: " + corr);
                     improve = true;
                     bestCorrelation = corr;
                     best = newM;
@@ -62,17 +62,17 @@ public class MaxGenerator extends AbstractGenerator {
         return best;
     }
     
-    private static Matrix steepestSearch(Matrix m){
+    public static Matrix steepestSearch(Matrix m){
         Matrix best = m;
         int bestCorrelation = m.correlation();
                 
         boolean improve = true;
         while(improve){
             improve = false;
-            for(SwapPosition swapPos : SwapGenerator.getSwapPositions(m)){
-                Matrix newM = m.clone();
+            for(SwapPosition swapPos : SwapGenerator.getSwapPositions(best)){
+                Matrix newM = best.clone();
                 swapPos.swap(newM);
-                int corr = m.correlation();
+                int corr = newM.correlation();
                 if(corr > bestCorrelation){
                     improve = true;
                     bestCorrelation = corr;

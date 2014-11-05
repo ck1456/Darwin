@@ -3,10 +3,12 @@
 datadir="data/"
 solndir="soln/"
 invoke="java -jar GenMat.jar"
+rm -rf "${solndir}"
+
 #Problem 1
 for n in darwin 1 2 3 
 do
-  for type in B
+  for type in A B
   do
     infile="${datadir}input_${n}.txt"
     outfile="${solndir}output_${n}.txt"

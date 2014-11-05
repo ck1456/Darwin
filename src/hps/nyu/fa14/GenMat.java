@@ -1,5 +1,6 @@
 package hps.nyu.fa14;
 
+import hps.nyu.fa14.solve.MaxCorGenerator;
 import hps.nyu.fa14.solve.MaxGenerator;
 import hps.nyu.fa14.solve.SwapGenerator;
 import hps.nyu.fa14.solve.TimedGenerator;
@@ -31,7 +32,8 @@ public class GenMat {
      */    
     public static List<Matrix> solveMax(TableSum tableSum){
         
-        SwapGenerator g = SwapGenerator.newInfiniteGenerator();
+        //IGenerator g = SwapGenerator.newInfiniteGenerator();
+        IGenerator g = new MaxCorGenerator();
         IGenerator tg = new TimedGenerator(g, 120);
         Matrix m = tg.generate(tableSum).get(0);
         System.out.println(String.format("Correlation: %d", m.correlation()));
