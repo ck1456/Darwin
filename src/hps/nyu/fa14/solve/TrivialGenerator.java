@@ -1,6 +1,5 @@
 package hps.nyu.fa14.solve;
 
-import hps.nyu.fa14.IGenerator;
 import hps.nyu.fa14.Matrix;
 import hps.nyu.fa14.TableSum;
 
@@ -12,7 +11,7 @@ import java.util.List;
  * 
  * @author ck1456@nyu.edu
  */
-public class TrivialGenerator implements IGenerator {
+public class TrivialGenerator extends AbstractGenerator {
 
     @Override
     public List<Matrix> generate(TableSum tableSum) {

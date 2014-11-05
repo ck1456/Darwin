@@ -1,7 +1,7 @@
 package hps.nyu.fa14.solve;
 
-import hps.nyu.fa14.IGenerator;
 import hps.nyu.fa14.Matrix;
+import hps.nyu.fa14.SwapPosition;
 import hps.nyu.fa14.TableSum;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.Set;
  * 
  * @author ck1456@nyu.edu
  */
-public class SwapGenerator implements IGenerator {
+public class SwapGenerator extends AbstractGenerator {
 
     // Allows clients to set a useful cutoff for testing
     // Generates 10000 by default for problem A
@@ -44,6 +44,7 @@ public class SwapGenerator implements IGenerator {
                                                     // distinct
                 if(added){
                     mQueue.add(newM); // explore this one later
+                    updateIfBest(newM);
                 }
 
                 if (matrices.size() >= maxToGenerate) {
@@ -51,14 +52,19 @@ public class SwapGenerator implements IGenerator {
                     break;
                 }
             }
-
         }
         System.out.println(String.format("Generated %d matrices",
                 matrices.size()));
         return new ArrayList<Matrix>(matrices);
     }
 
-    private Iterable<SwapPosition> getSwapPositions(final Matrix m) {
+    public static SwapGenerator newInfiniteGenerator(){
+        SwapGenerator g = new SwapGenerator();
+        g.maxToGenerate = Integer.MAX_VALUE;
+        return g;
+    }
+    
+    public static Iterable<SwapPosition> getSwapPositions(final Matrix m) {
         return new Iterable<SwapPosition>() {
             @Override
             public Iterator<SwapPosition> iterator() {
@@ -150,45 +156,6 @@ public class SwapGenerator implements IGenerator {
         @Override
         public void remove() {
             throw new UnsupportedOperationException();
-        }
-    }
-
-    // Defines corners of a sub matrix which can be swapped and still preserve
-    // row and column sums:
-    // x11,y11 x12,y12
-    // x21,y21 x22,y22
-    private static class SwapPosition {
-        public int r11;
-        public int c11;
-
-        public int r12;
-        public int c12;
-
-        public int r21;
-        public int c21;
-
-        public int r22;
-        public int c22;
-
-        // Swap must be of the form
-        // 1 0 or 0 1
-        // 0 1 -- 1 0
-        public boolean isValid(Matrix m) {
-            boolean base = m.values[r11][c11];
-            if ((base == m.values[r22][c22]) && (base != m.values[r12][c12])
-                    && (base != m.values[r21][c21])) {
-                return true;
-            }
-
-            return false;
-        }
-
-        // Modifies the matrix according to this swap
-        public void swap(Matrix m) {
-            m.values[r11][c11] = !m.values[r11][c11];
-            m.values[r12][c12] = !m.values[r12][c12];
-            m.values[r21][c21] = !m.values[r21][c21];
-            m.values[r22][c22] = !m.values[r22][c22];
         }
     }
 }

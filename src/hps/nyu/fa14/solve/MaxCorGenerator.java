@@ -16,7 +16,7 @@ import java.util.Set;
  * 
  * @author ck1456@nyu.edu
  */
-public class MaxCorGenerator implements IGenerator {
+public class MaxCorGenerator extends AbstractGenerator {
 
     // Allows clients to set a useful cutoff for testing
     // Generates 10000 by default for problem A

@@ -1,6 +1,5 @@
 package hps.nyu.fa14.solve;
 
-import hps.nyu.fa14.IGenerator;
 import hps.nyu.fa14.Matrix;
 import hps.nyu.fa14.TableSum;
 
@@ -15,7 +14,7 @@ import java.util.Set;
  * 
  * @author ck1456@nyu.edu
  */
-public class RandomGenerator implements IGenerator {
+public class RandomGenerator extends AbstractGenerator {
 
     public int maxToGenerate = 1;
 
