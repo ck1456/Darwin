@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -21,12 +22,31 @@ public class MaxCorGenerator implements IGenerator {
     // Allows clients to set a useful cutoff for testing
     // Generates 10000 by default for problem A
     public int maxToGenerate = 10000;
+    public int populationSize = 50;
+    public int generations = 1;
+    public double mutationProb = 0.9;
+    private Random rand = new Random();
+    private List<Integer> rowsNotAllowed = new ArrayList<Integer>();
+    private List<Integer> colsNotAllowed = new ArrayList<Integer>();
 
     @Override
     public List<Matrix> generate(TableSum tableSum) {
 
         // Keep a set of all of the Matrices
         Set<Matrix> matrices = new HashSet<Matrix>();
+        
+        rowsNotAllowed = new ArrayList<Integer>();
+        for(int i=0;i<tableSum.rows;i++) {
+          if(tableSum.rowSums[i] == 0 || tableSum.rowSums[i] == tableSum.cols) {
+            rowsNotAllowed.add(i);
+          }
+        }
+        colsNotAllowed = new ArrayList<Integer>();
+        for(int i=0;i<tableSum.cols;i++) {
+          if(tableSum.colSums[i] == 0 || tableSum.colSums[i] == tableSum.rows) {
+            colsNotAllowed.add(i);
+          }
+        }
 
         // Generate one solution to start
         int maxCorr = 0;
@@ -35,8 +55,41 @@ public class MaxCorGenerator implements IGenerator {
         int corr = m0.correlation();
         maxCorr = corr;
         Matrix bestCorMatrix = new Matrix(m0.rows,m0.cols);
-
-        List<Matrix> mQueue = new ArrayList<Matrix>();
+        List<List<Matrix>> populations = new ArrayList<List<Matrix>>();
+        List<Matrix> population = new ArrayList<Matrix>();
+        population.add(m0);
+        for(int i=1;i<populationSize;i++) {
+          Matrix newM = mutate(m0);
+          corr = newM.correlation2();
+          if(maxCorr < corr) {
+            maxCorr = corr;
+            bestCorMatrix = newM;
+          }
+          population.add(newM);
+        }
+        populations.add(population);
+        
+        int t = 0;
+        while(t < generations) {
+          m0 = bestCorMatrix;
+          population = new ArrayList<Matrix>();
+          population.add(m0);
+          for(int i=1;i<populationSize;i++) {
+            Matrix newM = mutate(m0);
+            corr = newM.correlation2();
+            if(maxCorr < corr) {
+              maxCorr = corr;
+              bestCorMatrix = newM;
+            }
+            population.add(newM);
+          }
+          populations.add(population);
+          t++;
+        }
+        
+        System.out.println("Best correlation " + maxCorr);
+        
+        /*List<Matrix> mQueue = new ArrayList<Matrix>();
         mQueue.add(m0);
 
         while (mQueue.size() > 0) {
@@ -64,8 +117,44 @@ public class MaxCorGenerator implements IGenerator {
         }
         System.out.println(String.format("Generated %d matrices",
                 matrices.size()));
-        System.out.println("Max corr "+maxCorr);
+        System.out.println("Max corr "+maxCorr);*/
         return new ArrayList<Matrix>(matrices);
+    }
+    
+    private Matrix mutate(Matrix m) {
+      boolean flag = false;
+      Matrix newM = m.clone();
+      while(!flag) {
+        boolean isRowAllowed = false;
+        boolean isColAllowed = false;
+        int rowToSwap = 0;
+        int colToSwap = 0;
+        while(!isRowAllowed) {
+          rowToSwap = rand.nextInt(m.rows);
+          if(!rowsNotAllowed.contains(rowToSwap)) {
+            isRowAllowed = true;
+          }
+        }
+        while(!isColAllowed) {
+          colToSwap = rand.nextInt(m.cols);
+          if(!colsNotAllowed.contains(colToSwap)) {
+            isColAllowed = true;
+          }
+        }
+        newM.values[rowToSwap][colToSwap] = !newM.values[rowToSwap][colToSwap];
+        int rowSwap = rand.nextInt(m.rows);
+        while(rowSwap != rowToSwap && newM.values[rowSwap][colToSwap] != newM.values[rowToSwap][colToSwap]) {
+          rowSwap = rand.nextInt(m.rows);
+        }
+        newM.values[rowSwap][colToSwap] = !newM.values[rowSwap][colToSwap];
+        int colSwap = rand.nextInt(m.cols);
+        while(colSwap != colToSwap && newM.values[rowToSwap][colSwap] != newM.values[rowToSwap][colToSwap]) {
+          colSwap = rand.nextInt(m.cols);
+        }
+        newM.values[rowToSwap][colSwap] = !newM.values[rowToSwap][colSwap];
+        flag = true;
+      }
+      return newM;
     }
 
     private Iterable<SwapPosition> getSwapPositions(final Matrix m) {
