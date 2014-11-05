@@ -34,7 +34,7 @@ public class RandomGenerator extends AbstractGenerator {
         return new ArrayList<Matrix>(matrices);
     }
     
-    private static Matrix generateOneRandom(TableSum tableSum) {
+    public static Matrix generateOneRandom(TableSum tableSum) {
         
      // Create a new matrix
         Matrix m = tableSum.emptyMatrix();
