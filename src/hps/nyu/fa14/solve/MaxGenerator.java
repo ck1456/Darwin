@@ -51,7 +51,7 @@ public class MaxGenerator extends AbstractGenerator {
                 swapPos.swap(newM);
                 int corr = newM.correlation();
                 if(corr > bestCorrelation){
-                    System.out.println("Local Search improvement: " + corr);
+                    //System.out.println("Local Search improvement: " + corr);
                     improve = true;
                     bestCorrelation = corr;
                     best = newM;
@@ -69,6 +69,7 @@ public class MaxGenerator extends AbstractGenerator {
         boolean improve = true;
         while(improve){
             improve = false;
+            Matrix newBest = best;
             for(SwapPosition swapPos : SwapGenerator.getSwapPositions(best)){
                 Matrix newM = best.clone();
                 swapPos.swap(newM);
@@ -76,9 +77,10 @@ public class MaxGenerator extends AbstractGenerator {
                 if(corr > bestCorrelation){
                     improve = true;
                     bestCorrelation = corr;
-                    best = newM;
+                    newBest = newM;
                 }
             }
+            best = newBest;
         }
         return best;
     }

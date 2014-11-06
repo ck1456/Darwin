@@ -12,7 +12,7 @@ public class MultiGeneratorTest {
     @Test
     public void testMaxGenerateInTime() throws Exception {
         TableSum tableSum = TableSum.parseFile("data/input_3.txt");
-        int maxTime = 120;
+        int maxTime = 20;
 
         MultiGenerator mg = new MultiGenerator();
         mg.addGenerator(new MaxCorGenerator());

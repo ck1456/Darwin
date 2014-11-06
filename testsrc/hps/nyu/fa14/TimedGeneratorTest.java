@@ -42,7 +42,6 @@ public class TimedGeneratorTest {
         long elapsed = System.currentTimeMillis() - start;
         assertTrue("Solution took too long to find",
                 elapsed < (maxTime * 1000));
-        assertEquals(63940, m.correlation());
+        assertTrue(m.correlation() > 63940);
     }
-
 }

@@ -11,8 +11,8 @@ public class LocalSearchGeneratorTest {
 
     @Test
     public void testLocalSearchGenerateInTime() throws Exception {
-        TableSum tableSum = TableSum.parseFile("data/input_2.txt");
-        int maxTime = 120;
+        TableSum tableSum = TableSum.parseFile("data/input_3.txt");
+        int maxTime = 20;
 
         LocalSearchGenerator mg = new LocalSearchGenerator(new MaxCorGenerator());
         IGenerator tg = new TimedGenerator(mg, maxTime);
