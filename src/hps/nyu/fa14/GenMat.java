@@ -38,8 +38,8 @@ public class GenMat {
         MultiGenerator mg = new MultiGenerator();
         mg.addGenerator(new LocalSearchGenerator(new MaxCorGenerator()));
         mg.addGenerator(new LocalSearchGenerator(new MaxCorGenerator()));
-        mg.addGenerator(new LocalSearchGenerator(new MaxCorGenerator()));
-        mg.addGenerator(SwapGenerator.newInfiniteGenerator());
+        //mg.addGenerator(new LocalSearchGenerator(new MaxCorGenerator()));
+        //mg.addGenerator(SwapGenerator.newInfiniteGenerator());
         IGenerator tg = new TimedGenerator(mg, 120);
         Matrix m = tg.generate(tableSum).get(0);
         //System.out.println(String.format("Correlation: %d", m.correlation()));
