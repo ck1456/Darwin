@@ -20,4 +20,13 @@ If necessary you can rebuild the jar file by using the included ant build script
 > ant
 
 Other Helpful Hints:
-
+We also supplied an automation script which can generate results for all test data
+and evaluate the results.  Assuming that all of the inputs are in:
+    data/
+and that the grader program is located at:
+    spec/grader.jar
+    
+Then you can run:
+$ chmod 755 test_and_score_all.sh
+$ ./test_and_score_all.sh
+This will store solutions in soln/ and output results for each test.    

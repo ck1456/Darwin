@@ -1,7 +1,8 @@
 package hps.nyu.fa14;
 
+import hps.nyu.fa14.solve.LocalSearchGenerator;
 import hps.nyu.fa14.solve.MaxCorGenerator;
-import hps.nyu.fa14.solve.MaxGenerator;
+import hps.nyu.fa14.solve.MultiGenerator;
 import hps.nyu.fa14.solve.SwapGenerator;
 import hps.nyu.fa14.solve.TimedGenerator;
 
@@ -33,10 +34,15 @@ public class GenMat {
     public static List<Matrix> solveMax(TableSum tableSum){
         
         //IGenerator g = SwapGenerator.newInfiniteGenerator();
-        IGenerator g = new MaxCorGenerator();
-        IGenerator tg = new TimedGenerator(g, 120);
+        //IGenerator g = new MaxCorGenerator();
+        MultiGenerator mg = new MultiGenerator();
+        mg.addGenerator(new LocalSearchGenerator(new MaxCorGenerator()));
+        mg.addGenerator(new LocalSearchGenerator(new MaxCorGenerator()));
+        mg.addGenerator(new LocalSearchGenerator(new MaxCorGenerator()));
+        mg.addGenerator(SwapGenerator.newInfiniteGenerator());
+        IGenerator tg = new TimedGenerator(mg, 120);
         Matrix m = tg.generate(tableSum).get(0);
-        System.out.println(String.format("Correlation: %d", m.correlation()));
+        //System.out.println(String.format("Correlation: %d", m.correlation()));
         return Arrays.asList(m);
     }
     

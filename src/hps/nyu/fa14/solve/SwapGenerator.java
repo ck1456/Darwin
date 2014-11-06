@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -53,8 +54,8 @@ public class SwapGenerator extends AbstractGenerator {
                 }
             }
         }
-        System.out.println(String.format("Generated %d matrices",
-                matrices.size()));
+        //System.out.println(String.format("Generated %d matrices",
+        //        matrices.size()));
         return new ArrayList<Matrix>(matrices);
     }
 
@@ -69,6 +70,15 @@ public class SwapGenerator extends AbstractGenerator {
             @Override
             public Iterator<SwapPosition> iterator() {
                 return new SwapPositionIterator(m);
+            }
+        };
+    }
+    
+    public static Iterable<SwapPosition> getSwapPositionsRandom(final Matrix m) {
+        return new Iterable<SwapPosition>() {
+            @Override
+            public Iterator<SwapPosition> iterator() {
+                return SwapPositionIterator.randomStart(m);
             }
         };
     }
@@ -92,6 +102,15 @@ public class SwapGenerator extends AbstractGenerator {
             setNext();
         }
 
+        private static final Random RAND = new Random();
+        public static SwapPositionIterator randomStart(Matrix m){
+            SwapPositionIterator iter = new SwapPositionIterator(m);
+            iter.baseR = RAND.nextInt(m.rows);
+            iter.baseC = RAND.nextInt(m.cols);
+            iter.setNext();
+            return iter;
+        }
+        
         private void setNext() {
 
             while (next == null || !next.isValid(m)) {

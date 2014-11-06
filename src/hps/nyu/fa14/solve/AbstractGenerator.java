@@ -26,7 +26,7 @@ public abstract class AbstractGenerator implements IGenerator {
         }
     }
 
-    private Matrix bestSolution;
+    public Matrix bestSolution;
     private int bestValue;
 
     protected boolean updateIfBest(Matrix m) {
