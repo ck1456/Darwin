@@ -322,6 +322,10 @@ public class MaxCorGenerator extends AbstractGenerator {
     return bestTwo;
   }
 
+  /*
+   * Combines only the best 2 matrices by selecting each row from
+   * one of the 2 matrices
+   */
   private Matrix combine(Matrix m1, Matrix m2, TableSum tableSum) {
     Matrix m = m1.clone();
     boolean flag = true;
