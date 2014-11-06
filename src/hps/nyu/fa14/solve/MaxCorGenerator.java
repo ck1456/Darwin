@@ -247,6 +247,11 @@ public class MaxCorGenerator extends AbstractGenerator {
     return Arrays.asList(bestMatrix);
   }
 
+  /*
+   * This method combines by choosing half the number of rows from 
+   * the 2 best parents and the other half the number of rows from
+   * all the parents randomly
+   */
   private Matrix combine(List<Matrix> population,TableSum tableSum) {
     Matrix m = new Matrix(tableSum.rows, tableSum.cols);
     boolean flag = true;
@@ -280,6 +285,10 @@ public class MaxCorGenerator extends AbstractGenerator {
     return m;
   }
   
+  
+  /*
+   * This method combines a population from 4 best parents
+   */
   private Matrix combine2(List<Matrix> population,TableSum tableSum) {
     Matrix m = new Matrix(tableSum.rows, tableSum.cols);
     boolean flag = true;
